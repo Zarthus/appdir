@@ -37,6 +37,7 @@ func TestTryEnvsFallback(t *testing.T) {
 	result := tryEnvs([]string{}, "fallback_value")
 	if result == nil {
 		t.Errorf("Setting Environment failed")
+		return
 	}
 	if *result != "fallback_value" {
 		t.Errorf("Expected value to be 'fallback_value', was '%s'", *result)
@@ -88,15 +89,15 @@ func handleResult(
 	switch runtime.GOOS {
 	case "windows":
 		if !expectWindows.MatchString(result) {
-			t.Errorf("result '%s' did not match expected expression '%s'", result, expectWindows.String())
+			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectWindows.String())
 		}
 	case "linux":
 		if !expectLinux.MatchString(result) {
-			t.Errorf("result '%s' did not match expected expression '%s'", result, expectLinux.String())
+			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectLinux.String())
 		}
 	case "darwin":
 		if !expectDarwin.MatchString(result) {
-			t.Errorf("result '%s' did not match expected expression '%s'", result, expectDarwin.String())
+			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectDarwin.String())
 		}
 	default:
 		panic("Unsupported/unknown OS " + runtime.GOOS)
