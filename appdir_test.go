@@ -13,6 +13,7 @@ func TestTryEnvs(t *testing.T) {
 	result := tryEnvs([]string{"test_override_dir"}, "fallback_value")
 	if result == nil {
 		t.Errorf("Setting Environment failed")
+		return
 	}
 	if *result != "foo" {
 		t.Errorf("Expected value to be 'foo', was '%s'", *result)
@@ -25,6 +26,7 @@ func TestTryEnvsMultiValue(t *testing.T) {
 	result := tryEnvs([]string{"test_override_dir1", "test_override_dir2"}, "fallback_value")
 	if result == nil {
 		t.Errorf("Setting Environment failed")
+		return
 	}
 	if *result != "foo" {
 		t.Errorf("Expected value to be 'foo', was '%s'", *result)
@@ -50,9 +52,9 @@ func TestGetApplicationDirectory(t *testing.T) {
 	result, err := GetApplicationDirectory()
 	handleErr(err, t)
 	handleResult(
-		regexp.MustCompile("Program Files"),
+		regexp.MustCompile(`Program Files`),
 		nil,
-		regexp.MustCompile("Library/Application Support"),
+		regexp.MustCompile(`Library/Application Support`),
 		result,
 		t,
 	)
@@ -62,9 +64,9 @@ func TestGetUserConfigDirectory(t *testing.T) {
 	result, err := GetUserConfigDirectory()
 	handleErr(err, t)
 	handleResult(
-		regexp.MustCompile("AppData\\\\Roaming"),
-		regexp.MustCompile("\\.config"),
-		regexp.MustCompile("Library/Preferences"),
+		regexp.MustCompile(`AppData\\Roaming`),
+		regexp.MustCompile(`\.config`),
+		regexp.MustCompile(`Library/Preferences`),
 		result,
 		t,
 	)
@@ -86,15 +88,15 @@ func handleResult(
 	switch runtime.GOOS {
 	case "windows":
 		if !expectWindows.MatchString(result) {
-			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectWindows.String())
+			t.Errorf("result '%s' did not match expected expression '%s'", result, expectWindows.String())
 		}
 	case "linux":
 		if !expectLinux.MatchString(result) {
-			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectLinux.String())
+			t.Errorf("result '%s' did not match expected expression '%s'", result, expectLinux.String())
 		}
 	case "darwin":
 		if !expectDarwin.MatchString(result) {
-			t.Errorf("Result '%s' did not match expected expression '%s'", result, expectDarwin.String())
+			t.Errorf("result '%s' did not match expected expression '%s'", result, expectDarwin.String())
 		}
 	default:
 		panic("Unsupported/unknown OS " + runtime.GOOS)

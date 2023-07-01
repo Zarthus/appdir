@@ -5,7 +5,7 @@ package appdir
 import "errors"
 
 func GetApplicationDirectory() (string, error) {
-	return "", errors.New("Not yet implemented for linux")
+	return "", errors.New("not yet implemented for linux")
 }
 
 func GetUserConfigDirectory() (string, error) {
