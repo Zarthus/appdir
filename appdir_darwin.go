@@ -4,6 +4,7 @@ package appdir
 
 import (
 	"errors"
+	"fmt"
 	"os"
 )
 
