@@ -38,7 +38,7 @@ import (
 func main() {
 	dir, _ := appdir.GetUserConfigDirectory() // TODO error handling
 	apppath := filepath.Join(dir, "myapp")
-	_ = os.MkdirAll(apppath, os.ModePerm)
+	_ = os.MkdirAll(apppath, 0750)
 	_ = os.WriteFile(filepath.Join(apppath, "config.json"), []byte("{\"foo\": true}"), 0644)
 	
 	// on linux, this would for example create `~/.config/myapp/config.json` with `{"foo": true}`
